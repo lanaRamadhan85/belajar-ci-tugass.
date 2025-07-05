@@ -44,7 +44,7 @@ History Transaksi Pembelian <strong><?= $username ?></strong>
                                 </div>
                                 <div class="modal-body">
                                     <?php 
-                                    if(!empty($product)){
+                                    if(!empty($product) && isset($product[$item['id']]) && is_array($product[$item['id']])){
 	                                    foreach ($product[$item['id']] as $index2 => $item2) : ?>
 	                                        <?php echo $index2 + 1 . ")" ?>
 	                                        <?php if ($item2['foto'] != '' and file_exists("img/" . $item2['foto'] . "")) : ?>
@@ -52,7 +52,9 @@ History Transaksi Pembelian <strong><?= $username ?></strong>
 	                                        <?php endif; ?>
 	                                        <strong><?= $item2['nama'] ?></strong>
 	                                        <?= number_to_currency($item2['harga'], 'IDR') ?>
-	                                        <br>
+	                                        <?php if (isset($item2['diskon'])): ?>
+	                                            <span class="badge bg-success">Diskon: <?= number_to_currency($item2['diskon'], 'IDR') ?></span><br>
+	                                        <?php endif; ?>
 	                                        <?= "(" . $item2['jumlah'] . " pcs)" ?><br>
 	                                        <?= number_to_currency($item2['subtotal_harga'], 'IDR') ?>
 	                                        <hr>

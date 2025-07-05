@@ -34,7 +34,7 @@ if (session()->getFlashData('success')) {
                     <td><img src="<?php echo base_url() . "img/" . $item['options']['foto'] ?>" width="100px"></td>
                     <td><?php echo number_to_currency($item['price'], 'IDR') ?></td>
                     <td><input type="number" min="1" name="qty<?php echo $i++ ?>" class="form-control" value="<?php echo $item['qty'] ?>"></td>
-                    <td><?php echo number_to_currency($item['subtotal'], 'IDR') ?></td>
+                    <td><?php echo number_to_currency($item['price'] * $item['qty'], 'IDR') ?></td>
                     <td>
                         <a href="<?php echo base_url('keranjang/delete/' . $item['rowid'] . '') ?>" class="btn btn-danger"><i class="bi bi-trash"></i></a>
                     </td>

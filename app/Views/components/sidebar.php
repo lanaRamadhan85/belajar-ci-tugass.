@@ -3,6 +3,8 @@
 
     <ul class="sidebar-nav" id="sidebar-nav">
 
+       
+
         <li class="nav-item">
             <a class="nav-link <?php echo (uri_string() == '') ? "" : "collapsed" ?>" href=".">
                 <i class="bi bi-grid"></i>
@@ -36,12 +38,7 @@
             </a>
         </li> <!-- End Profile Nav -->
 
-        <li class="nav-item">
-            <a class="nav-link <?php echo (uri_string() == 'produk_kategori') ? "" : "collapsed" ?>" href="produk_kategori">
-                <i class="bi bi-tags"></i>
-                <span>Kategori Produk</span>
-            </a>
-        </li><!--End FAQ Nav -->
+
         
         <li class="nav-item">
             <a class="nav-link <?php echo (uri_string() == 'contact') ? "" : "collapsed" ?>" href="contact">
@@ -49,6 +46,19 @@
                 <span>Contact</span>
             </a>
         </li><!-- End Contact Nav -->
+
+        <?php
+        if (session()->get('role') == 'admin') {
+        ?>
+            <li class="nav-item">
+                <a class="nav-link <?php echo (uri_string() == 'diskon') ? "" : "collapsed" ?>" href="diskon">
+                    <i class="bi bi-cash-coin"></i>
+                    <span>Manajemen Diskon</span>
+                </a>
+            </li><!-- End Diskon Nav -->
+        <?php
+        }
+        ?>
     </ul>
 
 </aside><!-- End Sidebar-->

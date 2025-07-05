@@ -1,89 +1,109 @@
-# Toko Online CodeIgniter 4
+# Toko - Sistem Manajemen Penjualan
 
-Proyek ini adalah platform toko online yang dibangun menggunakan [CodeIgniter 4](https://codeigniter.com/). Sistem ini menyediakan beberapa fungsionalitas untuk toko online, termasuk manajemen produk, keranjang belanja, dan sistem transaksi.
+## Info Versi
 
-## Daftar Isi
+- PHP: >= 8.2
+- CodeIgniter: 4.x
+- Bootstrap: 5.x
 
-- [Fitur](#fitur)
-- [Persyaratan Sistem](#persyaratan-sistem)
-- [Instalasi](#instalasi)
-- [Struktur Proyek](#struktur-proyek)
+Sistem ini adalah aplikasi web toko sederhana berbasis CodeIgniter 4 yang mendukung manajemen produk, kategori, diskon, transaksi, keranjang belanja, checkout, serta dashboard monitoring penjualan.
 
 ## Fitur
 
-- Katalog Produk
-  - Tampilan produk dengan gambar
-  - Pencarian produk
-- Keranjang Belanja
-  - Tambah/hapus produk
-  - Update jumlah produk
-- Sistem Transaksi
-  - Proses checkout
-  - Riwayat transaksi
-- Panel Admin
-  - Manajemen produk (CRUD)
-  - Manajemen kategori
-  - Laporan transaksi
-  - Export data ke PDF
-- Sistem Autentikasi
-  - Login/Register pengguna
-  - Manajemen akun
-- UI Responsif dengan NiceAdmin template
-
-## Persyaratan Sistem
-
-- PHP >= 8.2
-- Composer
-- Web server (XAMPP)
+- **Manajemen Produk**: CRUD produk, upload foto, stok, harga, dan kategori.
+- **Manajemen Kategori Produk**: Tambah, edit, hapus kategori produk.
+- **Manajemen Diskon**: CRUD diskon harian, diskon otomatis diterapkan pada checkout dan keranjang jika ada diskon aktif.
+- **Keranjang Belanja**: Tambah produk ke keranjang, edit jumlah, hapus item, kosongkan keranjang.
+- **Checkout**: Proses checkout dengan perhitungan subtotal, diskon, ongkir, dan total bayar.
+- **Transaksi**: Penyimpanan transaksi dan detail pembelian, riwayat transaksi per user.
+- **Dashboard Toko**: Monitoring transaksi, total harga, ongkir, status, tanggal, dan jumlah item per transaksi.
+- **API Internal**: Endpoint API untuk mengambil data transaksi beserta detailnya (dengan API key).
+- **Autentikasi**: Login user/admin, proteksi halaman tertentu.
+- **Validasi & Notifikasi**: Validasi form, notifikasi sukses/gagal, error handling AJAX.
+- **Tampilan Responsive**: Menggunakan Bootstrap 5 dan template NiceAdmin.
+- **DataTables**: Tabel dinamis dengan search, pagination, dan entries per page.
 
 ## Instalasi
 
-1. **Clone repository ini**
+1. **Clone repository**
    ```bash
-   git clone [URL repository]
-   cd belajar-ci-tugas
+   git clone <repo-url> && cd projekCI2
    ```
-2. **Install dependensi**
+2. **Install dependency PHP**
    ```bash
    composer install
    ```
-3. **Konfigurasi database**
-
-   - Start module Apache dan MySQL pada XAMPP
-   - Buat database **db_ci4** di phpmyadmin.
-   - copy file .env dari tutorial https://www.notion.so/april-ns/Codeigniter4-Migration-dan-Seeding-045ffe5f44904e5c88633b2deae724d2
-
-4. **Jalankan migrasi database**
+3. **Konfigurasi Database**
+   - Edit `app/Config/Database.php` sesuai koneksi MySQL lokal kamu.
+   - Buat database baru, misal: `toko`.
+4. **Migrasi & Seed Data**
+   Jalankan migrasi dan seeder untuk membuat tabel dan data awal:
    ```bash
    php spark migrate
-   ```
-5. **Seeder data**
-   ```bash
-   php spark db:seed ProductSeeder
-   ```
-   ```bash
    php spark db:seed UserSeeder
+   php spark db:seed ProductCategorySeeder
+   php spark db:seed ProductSeeder
+   # (opsional) php spark db:seed TransactionDetailSeeder
    ```
-6. **Jalankan server**
+5. **Konfigurasi Environment**
+   - Copy `.env.example` ke `.env` jika ada, lalu atur variabel seperti API_KEY, COST_KEY, dsb.
+6. **Jalankan Server**
    ```bash
    php spark serve
    ```
-7. **Akses aplikasi**
-   Buka browser dan akses `http://localhost:8080` untuk melihat aplikasi.
+   atau akses via XAMPP/htdocs jika menggunakan Windows.
+7. **Akses Aplikasi**
+   - Frontend: `http://localhost:8080/`
+   - Dashboard Toko: `http://localhost/dashboard-toko/dashboard-toko/`
 
 ## Struktur Proyek
 
-Proyek menggunakan struktur MVC CodeIgniter 4:
+```
+projekCI2/
+├── app/
+│   ├── Config/           # Konfigurasi aplikasi, database, routes, dsb
+│   ├── Controllers/      # Controller utama (Auth, Produk, Transaksi, API, dsb)
+│   ├── Database/
+│   │   ├── Migrations/   # File migrasi tabel
+│   │   └── Seeds/        # Seeder data awal
+│   ├── Filters/          # Filter autentikasi, redirect
+│   ├── Models/           # Model untuk produk, transaksi, user, dsb
+│   ├── Views/            # View utama (produk, keranjang, checkout, login, dsb)
+│   │   └── components/   # Komponen UI (header, footer, sidebar)
+│   └── ...
+├── public/
+│   ├── index.php         # Entry point aplikasi
+│   ├── dashboard-toko/   # Dashboard monitoring transaksi (standalone)
+│   └── NiceAdmin/        # Asset template admin (CSS, JS, gambar)
+├── writable/             # Cache, logs, uploads
+├── composer.json         # Dependency PHP
+├── README.md             # Dokumentasi proyek
+└── ...
+```
 
-- app/Controllers - Logika aplikasi dan penanganan request
-  - AuthController.php - Autentikasi pengguna
-  - ProdukController.php - Manajemen produk
-  - TransaksiController.php - Proses transaksi
-- app/Models - Model untuk interaksi database
-  - ProductModel.php - Model produk
-  - UserModel.php - Model pengguna
-- app/Views - Template dan komponen UI
-  - v_produk.php - Tampilan produk
-  - v_keranjang.php - Halaman keranjang
-- public/img - Gambar produk dan aset
-- public/NiceAdmin - Template admin
+## Catatan Penting
+
+- Untuk fitur dashboard-toko, data transaksi diambil via API internal dengan API key.
+- Kolom "Jumlah Item" di dashboard menghitung total seluruh item pada detail transaksi.
+- Fitur diskon otomatis aktif jika ada diskon pada tanggal hari ini.
+- Semua aksi CRUD (produk, kategori, diskon) menggunakan modal dan AJAX, tanpa reload halaman.
+- Tabel menggunakan DataTables untuk kemudahan pencarian dan navigasi data.
+
+## Mekanisme Diskon Otomatis
+
+- Jika ada diskon aktif pada hari ini (diskon harian), maka harga produk di keranjang dan checkout akan otomatis dikurangi nominal diskon tersebut.
+- Nominal diskon yang berlaku akan tercatat di setiap detail transaksi pada saat checkout.
+- Riwayat transaksi/profil user akan menampilkan badge diskon pada setiap produk yang mendapat diskon, sesuai nominal diskon hari itu.
+- Diskon hanya berlaku untuk transaksi pada tanggal diskon aktif.
+
+## Contoh Akun Login
+
+| Role  | Username                                   | Password |
+| ----- | ------------------------------------------ | -------- |
+| Admin | admin                                      | admin123 |
+| User  | user                                       | user123  |
+| Guest | (tanpa login, bisa checkout sebagai guest) |
+
+---
+
+Jika ada pertanyaan atau bug, silakan hubungi developer atau buat issue di repository ini.

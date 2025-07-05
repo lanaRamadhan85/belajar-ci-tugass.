@@ -9,11 +9,22 @@
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
 
-    <div class="search-bar">
+    <div class="search-bar d-flex align-items-center">
         <form class="search-form d-flex align-items-center" method="POST" action="#">
             <input type="text" name="query" placeholder="Search" title="Enter search keyword">
             <button type="submit" title="Search"><i class="bi bi-search"></i></button>
         </form>
+        <?php
+        // Query diskon hari ini
+        $diskonHariIni = null;
+        try {
+            $db = db_connect();
+            $builder = $db->table('diskon');
+            $diskonHariIni = $builder->where('tanggal', date('Y-m-d'))->get()->getRow();
+        } catch (\Throwable $e) {}
+        if ($diskonHariIni): ?>
+            <span class="badge bg-success ms-3">Hari ini ada diskon Rp <?= number_format($diskonHariIni->nominal, 0, ',', '.') ?> per item</span>
+        <?php endif; ?>
     </div><!-- End Search Bar -->
 
     <nav class="header-nav ms-auto">
