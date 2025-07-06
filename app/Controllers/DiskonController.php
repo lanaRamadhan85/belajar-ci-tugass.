@@ -27,7 +27,14 @@ class DiskonController extends BaseController
             'tanggal' => 'required|is_unique[diskon.tanggal]',
             'nominal' => 'required|numeric',
         ];
-        if (!$this->validate($rules)) {
+        
+        $messages = [
+            'tanggal' => [
+                'is_unique' => 'Diskon untuk tanggal tersebut sudah terdaftar. Silakan pilih tanggal lain.'
+            ]
+        ];
+        
+        if (!$this->validate($rules, $messages)) {
             return $this->response->setJSON(['status' => 'error', 'errors' => $this->validator->getErrors()]);
         }
         $this->diskonModel->insert([
