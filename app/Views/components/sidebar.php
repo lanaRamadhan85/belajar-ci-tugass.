@@ -27,6 +27,13 @@
                     <span>Produk</span>
                 </a>
             </li><!-- End Produk Nav -->
+
+            <li class="nav-item">
+                <a class="nav-link <?php echo (uri_string() == 'produk_kategori') ? "" : "collapsed" ?>" href="produk_kategori">
+                    <i class="bi bi-tags"></i>
+                    <span>Kategori Produk</span>
+                </a>
+            </li><!-- End Kategori Produk Nav -->
         <?php
         }
         ?>
